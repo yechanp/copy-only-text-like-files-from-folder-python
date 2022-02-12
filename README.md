@@ -20,7 +20,8 @@ python copy_text_like_files.py --data_path /home/user1/codes --output ./copied
 ```
 
 If you additionally want to copy non-text files, or if you do not want to copy text-like files with specific extension, please append ALLOW_LIST and DENY_LIST in copy_text_like_files.py. 
-for example,
+
+For example,
 ```
 ALLOW_LIST= ['.mat']   
 DENY_LIST = ['.csv' ] 
