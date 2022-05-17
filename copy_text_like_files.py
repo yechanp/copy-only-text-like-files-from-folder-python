@@ -15,6 +15,7 @@ f = magic.Magic(mime=True, uncompress=True)
 
 ALLOW_LIST= []   # e.g. ['.mat']
 DENY_LIST = []   # e.g. ['.csv' ,'.md'] 
+ONLY_NAME_LIST = ['.pth']
 
 def check_text_like(item,f):
     file_type =  f.from_file(item)
@@ -36,7 +37,10 @@ for item in glob.glob(args.data_path+'**',recursive=True):
             os.makedirs(make_dir_path)
             pass 
 # copy text-like files
-for item in glob.glob(args.data_path+'**',recursive=True):
+all= glob.glob(args.data_path+'**',recursive=True)
+for idx,item in enumerate( all):
+    if idx%100 == 0 :
+        print('idx',idx,'/', len(all))
     if os.path.isfile(item):
         _,ext = os.path.splitext(item)
         if ext in DENY_LIST:
@@ -45,6 +49,8 @@ for item in glob.glob(args.data_path+'**',recursive=True):
             relative_item = item.replace(args.data_path,'')
             new_path = join(args.output,relative_item)
             shutil.copyfile(item, new_path)
-
-
-
+        elif ext in ONLY_NAME_LIST:
+            relative_item = item.replace(args.data_path,'')
+            new_path = join(args.output,relative_item)
+            if not os.path.isfile(new_path):
+                os.mknod(new_path)
